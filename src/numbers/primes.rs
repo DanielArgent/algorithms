@@ -36,8 +36,8 @@ pub fn generate(upto: usize) -> Vec<usize> {
 /// Determine if a number is a prime.
 ///
 /// Note: This function uses trial division.
-pub fn is_prime_trial(n: i64) -> bool {
-    let square_root = (n as f64).sqrt().trunc() as i64;
+pub fn is_prime_trial(n: u64) -> bool {
+    let square_root = (n as f64).sqrt().trunc() as u64;
     for i in 2..=square_root {
         if n % i == 0 {
             return false;
