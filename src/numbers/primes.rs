@@ -62,4 +62,10 @@ mod tests {
         let primes = vec![1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29];
         assert!(primes.into_iter().all(|x| is_prime_trial(x)));
     }
+
+    #[test]
+    fn all_is_not_prime() {
+        let primes = vec![4, 6, 8, 9, 10, 12, 14, 15, 16, 18, 20, 21, 22];
+        assert!(primes.into_iter().all(|x| !is_prime_trial(x)));
+    }
 }
