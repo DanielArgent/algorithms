@@ -33,6 +33,20 @@ pub fn generate(upto: usize) -> Vec<usize> {
     prime_flags.into_iter().enumerate().filter(|(_, v)| { *v }).map(|(i,_)| { i + 1 }).collect()
 }
 
+/// Determine if a number is a prime.
+///
+/// Note: This function uses trial division.
+pub fn is_prime_trial(n: i64) -> bool {
+    let square_root = (n as f64).sqrt().trunc() as i64;
+    for i in 2..=square_root {
+        if n % i == 0 {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -41,5 +55,11 @@ mod tests {
     fn primes_upto_thirty_should_be_generated_correctly() {
         let primes_upto_thirty = generate(30);
         assert_eq!(primes_upto_thirty, vec![1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29]);
+    }
+
+    #[test]
+    fn all_is_prime() {
+        let primes = vec![1, 2, 3, 5, 7, 11, 13, 17, 19, 23, 29];
+        assert!(primes.into_iter().all(|x| is_prime_trial(x)));
     }
 }
