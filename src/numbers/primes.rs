@@ -2,6 +2,9 @@
 //!
 //! Author: Denis Tsvikevich
 
+use rand::Rng;
+use crate::numbers::operations::mod_exp::{ModExp};
+
 /// Generates a vector of prime numbers smaller than or equal to given number.
 ///
 /// Note: This function uses the sieve of Eratosthenes.
@@ -54,6 +57,44 @@ pub fn is_prime_trial(n: u64) -> bool {
     return true;
 }
 
+/// Determine if a number is a prime.
+///
+/// Note:
+///     This function uses probabilistic method.
+///     To make it more precise, you can enlarge repeats count.
+///
+/// Arguments:
+///
+/// * `n`: The number to test for primality.
+/// * `repeats_count`: The number of times to repeat the test.
+///
+/// Returns:
+///
+/// When given number is prime - returns true, false otherwise.
+pub fn fermat_primality_test(n: u64, repeats_count: u32) -> bool {
+    if n < 2 {
+        return false;
+    }
+
+    if n < 4 {
+        return true;
+    }
+
+    let mut rng = rand::thread_rng();
+
+    let mut i = 0;
+    while i < repeats_count {
+        let random_number = rng.gen_range(2..=(n - 2));
+        if ModExp::mod_exp(random_number, n-1, n) != 1 {
+            return false;
+        }
+
+        i += 1;
+    }
+
+    return true;
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -82,10 +123,36 @@ mod tests {
         assert_eq!(zero_is_prime, false);
     }
 
-
     #[test]
     fn one_is_not_prime() {
         let zero_is_prime = is_prime_trial(1);
         assert_eq!(zero_is_prime, false);
+    }
+
+    #[test]
+    fn zero_is_not_prime_fermat() {
+        let not_prime_number = 0;
+
+        let is_prime_number = fermat_primality_test(not_prime_number, 10);
+
+        assert_eq!(is_prime_number, false, "Fermat primality test counted 0 as prime number");
+    }
+
+    #[test]
+    fn all_is_prime_fermat() {
+        let prime_numbers = vec![2, 3, 5, 7, 11, 13, 17, 19, 23, 29];
+
+        let is_every_number_in_vector_prime = prime_numbers.into_iter().all(|n| fermat_primality_test(n, 100));
+
+        assert!(is_every_number_in_vector_prime, "Fermat primality test counted some number in the given vector as a composite");
+    }
+
+    #[test]
+    fn all_is_not_prime_fermat() {
+        let not_prime_numbers = vec![1, 4, 6, 8, 9, 10, 12, 14, 15, 16, 18, 20, 21, 22];
+
+        let is_every_number_in_vector_not_prime = not_prime_numbers.into_iter().all(|n| !fermat_primality_test(n, 100));
+
+        assert!(is_every_number_in_vector_not_prime, "Fermat primality test counted some number in the given vector as a prime");
     }
 }
