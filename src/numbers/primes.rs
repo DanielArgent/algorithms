@@ -97,32 +97,47 @@ mod tests {
 
     #[test]
     fn primes_upto_thirty_should_be_generated_correctly() {
-        let primes_upto_thirty = generate(30);
-        assert_eq!(primes_upto_thirty, vec![2, 3, 5, 7, 11, 13, 17, 19, 23, 29]);
+        let expected_prime_numbers = vec![2, 3, 5, 7, 11, 13, 17, 19, 23, 29];
+
+        let actual_generated_prime_numbers = generate(30);
+
+        assert_eq!(actual_generated_prime_numbers, expected_prime_numbers);
     }
 
     #[test]
     fn all_is_prime() {
-        let primes = vec![2, 3, 5, 7, 11, 13, 17, 19, 23, 29];
-        assert!(primes.into_iter().all(|x| is_prime_trial(x)));
+        let prime_numbers = vec![2, 3, 5, 7, 11, 13, 17, 19, 23, 29];
+
+        let is_every_number_in_vector_prime = prime_numbers.into_iter().all(|x| is_prime_trial(x));
+
+        assert!(is_every_number_in_vector_prime);
     }
 
     #[test]
     fn all_is_not_prime() {
-        let primes = vec![1, 4, 6, 8, 9, 10, 12, 14, 15, 16, 18, 20, 21, 22];
-        assert!(primes.into_iter().all(|x| !is_prime_trial(x)));
+        let not_prime_numbers = vec![1, 4, 6, 8, 9, 10, 12, 14, 15, 16, 18, 20, 21, 22];
+
+        let is_every_number_in_vector_not_prime = not_prime_numbers.into_iter().all(|x| !is_prime_trial(x));
+
+        assert!(is_every_number_in_vector_not_prime);
     }
 
     #[test]
     fn zero_is_not_prime() {
-        let zero_is_prime = is_prime_trial(0);
-        assert_eq!(zero_is_prime, false);
+        let not_prime_number = 0;
+
+        let is_prime_number = is_prime_trial(not_prime_number);
+
+        assert_eq!(is_prime_number, false);
     }
 
     #[test]
     fn one_is_not_prime() {
-        let zero_is_prime = is_prime_trial(1);
-        assert_eq!(zero_is_prime, false);
+        let not_prime_number = 1;
+
+        let is_prime_number = is_prime_trial(not_prime_number);
+
+        assert_eq!(is_prime_number, false);
     }
 
     #[test]
