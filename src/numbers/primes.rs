@@ -36,7 +36,7 @@ pub fn generate(upto: usize) -> Vec<usize> {
     }
 
     // Transform a vector of logical flags into a vector of prime numbers.
-    prime_flags.into_iter().enumerate().filter(|(_, v)| { *v }).map(|(i,_)| { i + 1 }).collect()
+    prime_flags.into_iter().enumerate().filter_map(|(index, is_prime)| if is_prime { Some(index + 1) } else { None }).collect()
 }
 
 /// Determine if a number is a prime.
