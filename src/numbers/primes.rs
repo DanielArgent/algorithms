@@ -9,6 +9,8 @@ use crate::numbers::operations::mod_exp::{ModExp};
 ///
 /// Note: This function uses the sieve of Eratosthenes.
 pub fn generate(upto: usize) -> Vec<usize> {
+    // Note that in this vector numbers are shifted i.e.
+    // value with index 0 stands for one, and value with index 1 stands for two, etc.
     let mut prime_flags = vec![true; upto];
 
     // One is not a prime number.
